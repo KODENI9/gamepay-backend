@@ -14,6 +14,8 @@ export const telegramClient = {
       return;
     }
     try {
+      console.log("DEBUG token:", JSON.stringify(env.TELEGRAM_BOT_TOKEN), "longueur:", env.TELEGRAM_BOT_TOKEN.length);
+      console.log("DEBUG chatId:", JSON.stringify(env.TELEGRAM_CHAT_ID));
       await axios.post(`https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
         chat_id: env.TELEGRAM_CHAT_ID,
         text,
