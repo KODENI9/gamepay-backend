@@ -2,6 +2,7 @@ import { db } from "../../config/firebase";
 import { gamesRepository } from "../games/games.repository";
 import { productsRepository } from "../products/products.repository";
 import type { Order } from "../orders/orders.types";
+import { FieldValue } from "firebase-admin/firestore";
 
 export interface DayRevenue {
   date: string;
@@ -105,4 +106,19 @@ export const analyticsService = {
       revenueByGame: Array.from(byGame.values()).sort((a, b) => b.revenue - a.revenue),
     };
   },
+
+  async trackVisit(): Promise<void> {
+    const today = new Date().toISOString().slice(0, 10);
+    await db.collection("siteVisits").doc(today).set(
+      { count: FieldValue.increment(1) },
+      { merge: true }
+    );
+  },
+
+  async getVisitsToday(): Promise<number> {
+    const today = new Date().toISOString().slice(0, 10);
+    const doc = await db.collection("siteVisits").doc(today).get();
+    return doc.exists ? (doc.data()?.count ?? 0) : 0;
+  },
 };
+

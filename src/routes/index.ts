@@ -7,7 +7,7 @@ import { ordersRouter } from "../modules/orders/orders.routes";
 import { paymentsRouter } from "../modules/payments/payments.routes";
 import { playersRouter } from "../modules/players/players.routes";
 import { productsRouter } from "../modules/products/products.routes";
-
+import { usersRouter } from "../modules/users/users.routes";
 const router = Router();
 
 router.get("/health", (_req, res) => {
@@ -15,6 +15,7 @@ router.get("/health", (_req, res) => {
 });
 
 router.use("/games", gamesRouter);
+router.use("/users", usersRouter);
 router.use("/products", productsRouter);
 router.use("/orders", ordersRouter);
 router.use("/payments", paymentsRouter);

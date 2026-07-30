@@ -11,4 +11,24 @@ export const analyticsController = {
       next(err);
     }
   },
+
+  async trackVisit(req: Request, res: Response) {
+    try {
+      await analyticsService.trackVisit();
+    } catch {
+      // On ignore silencieusement : un souci de tracking ne doit jamais
+      // bloquer l'affichage du site pour un visiteur.
+    }
+    res.status(204).send();
+  },
+
+  async getVisitsToday(req: Request, res: Response, next: NextFunction) {
+    try {
+      const count = await analyticsService.getVisitsToday();
+      res.json({ data: { count } });
+    } catch (err) {
+      next(err);
+    }
+  },
 };
+
